@@ -115,6 +115,41 @@ const RESERVED = new Set([
   "broadcast", "localhost",
 ]);
 
+// ─── PR file-path guard (only runs inside GitHub Actions on pull_request) ─────
+if (process.env.GITHUB_EVENT_NAME === "pull_request") {
+  const { execSync } = require("child_process");
+  const base = process.env.GITHUB_BASE_REF || "main";
+
+  let changedFiles;
+  try {
+    changedFiles = execSync(`git diff --name-only origin/${base}...HEAD`, { encoding: "utf8" })
+      .trim()
+      .split("\n")
+      .filter(Boolean);
+  } catch (e) {
+    console.error(`❌ Could not determine changed files: ${e.message}`);
+    process.exit(1);
+  }
+
+  console.log("─── File path check ───────────────────────────────────────");
+  console.log(`Changed files in this PR (${changedFiles.length}):`);
+  changedFiles.forEach(f => console.log(`  ${f}`));
+  console.log("");
+
+  // Only domains/NAME.json is allowed — no subdirectories, no other extensions
+  const illegal = changedFiles.filter(f => !/^domains\/[^/]+\.json$/.test(f));
+
+  if (illegal.length > 0) {
+    console.error("❌ This PR modifies files outside domains/*.json:\n");
+    illegal.forEach(f => console.error(`   🚫  ${f}`));
+    console.error("\nOnly files matching  domains/NAME.json  are allowed in pull requests.");
+    console.error("Scripts, workflows, docs, and root files are maintained by the repo owners.");
+    process.exit(1);
+  }
+
+  console.log(`✅ All changed files are inside domains/ — path check passed\n`);
+}
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 let errors   = 0;
 let warnings = 0;
