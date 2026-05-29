@@ -1,15 +1,14 @@
-# your-service.com
+# getxyz.de
 
 > Free subdomains for developers — managed via GitHub Pull Requests.
 
-<!-- Replace the badges below with your own repo paths -->
-![Domains](https://img.shields.io/github/directory-file-count/YOUR-ORG/register/domains?label=domains&style=for-the-badge&color=5c46eb)
-![Pull Requests](https://img.shields.io/github/issues-pr-raw/YOUR-ORG/register?label=open+PRs&style=for-the-badge&color=5c46eb)
-![Stars](https://img.shields.io/github/stars/YOUR-ORG/register?style=for-the-badge&color=5c46eb)
+![Domains](https://img.shields.io/github/directory-file-count/blackredit/register/domains?label=domains&style=for-the-badge&color=5c46eb)
+![Pull Requests](https://img.shields.io/github/issues-pr-raw/blackredit/register?label=open+PRs&style=for-the-badge&color=5c46eb)
+![Stars](https://img.shields.io/github/stars/blackredit/register?style=for-the-badge&color=5c46eb)
 
 ---
 
-**your-service.com** lets developers claim a free `.your-service.com` subdomain for
+**your-service.com** lets developers claim a free `.getxyz.de` subdomain for
 their personal sites, projects, or tools — no sign-up, no dashboard, just a GitHub PR.
 
 ## Register a subdomain
