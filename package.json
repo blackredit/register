@@ -1,0 +1,13 @@
+{
+  "name": "subdomain-register",
+  "version": "1.0.0",
+  "description": "Free subdomain registration service — community-managed via GitHub PRs",
+  "scripts": {
+    "validate": "node scripts/validate.js",
+    "deploy": "node scripts/deploy.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "GPL-3.0"
+}
