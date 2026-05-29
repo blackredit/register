@@ -1,0 +1,10 @@
+{
+  "owner": {
+    "username": "your-github-username",
+    "email": "optional@example.com"
+  },
+  "record": {
+    "CNAME": "your-github-username.github.io"
+  },
+  "proxied": false
+}
