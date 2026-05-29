@@ -1,0 +1,10 @@
+{
+  "owner": {
+    "username": "blackredit",
+    "email": "example@mail.de"
+  },
+  "record": {
+    "A": "127.0.0.1"
+  },
+  "proxied": false
+}
