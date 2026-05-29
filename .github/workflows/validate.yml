@@ -1,0 +1,55 @@
+name: Validate Domain Files
+
+on:
+  pull_request:
+    paths:
+      - "domains/**"
+
+jobs:
+  validate:
+    name: Validate JSON
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # needed to compare branches below
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # ── Security check: PRs may ONLY touch files inside domains/ ──────────
+      - name: Ensure only domains/ was changed
+        run: |
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD \
+            | grep -v '^domains/' || true)
+          if [ -n "$CHANGED" ]; then
+            echo "❌ Pull requests may only modify files inside domains/"
+            echo ""
+            echo "Files changed outside domains/:"
+            echo "$CHANGED"
+            exit 1
+          fi
+          echo "✅ Only domains/ was modified — security check passed"
+
+      # ── Validate all JSON files ───────────────────────────────────────────
+      - name: Run validator
+        env:
+          BASE_DOMAIN: ${{ vars.BASE_DOMAIN }}
+        run: node scripts/validate.js
+
+      # ── Duplicate check: no two files with the same subdomain name ────────
+      - name: Check for duplicate subdomains
+        run: |
+          DUPES=$(ls domains/*.json 2>/dev/null \
+            | xargs -I{} basename {} .json \
+            | sort | uniq -d)
+          if [ -n "$DUPES" ]; then
+            echo "❌ Duplicate subdomain(s) detected:"
+            echo "$DUPES"
+            exit 1
+          fi
+          echo "✅ No duplicates found"

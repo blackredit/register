@@ -1,0 +1,40 @@
+name: Deploy DNS Records
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "domains/**"
+
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Sync Cloudflare DNS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run deploy script
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ZONE_ID:   ${{ secrets.CF_ZONE_ID }}
+          BASE_DOMAIN:  ${{ vars.BASE_DOMAIN }}
+        run: node scripts/deploy.js
+
+      - name: Deployment summary
+        if: success()
+        run: |
+          echo "## ✅ DNS sync successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All records in \`domains/\` have been synced to Cloudflare." >> $GITHUB_STEP_SUMMARY
+          echo "New subdomains are usually live within 1–5 minutes." >> $GITHUB_STEP_SUMMARY
