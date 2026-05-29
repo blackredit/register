@@ -11,6 +11,8 @@
 **getxyz.de** lets developers claim a free `.getxyz.de` subdomain for
 their personal sites, projects, or tools — no sign-up, no dashboard, just a GitHub PR.
 
+> The domain works just like any other domain you would buy! You don't have to go without anything.
+
 ## Register a subdomain
 
 1. [**Fork**](../../fork) this repository
