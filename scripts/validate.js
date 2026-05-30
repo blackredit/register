@@ -8,7 +8,7 @@ const fs   = require("fs");
 const path = require("path");
 
 // ─── Configuration ────────────────────────────────────────────────────────────
-const BASE_DOMAIN   = process.env.BASE_DOMAIN || "your-service.com"; // ← change this
+const BASE_DOMAIN   = process.env.BASE_DOMAIN || "getxyz.de";
 const DOMAINS_DIR   = path.join(__dirname, "..", "domains");
 
 const ALLOWED_TYPES = ["A", "AAAA", "CNAME", "MX", "TXT", "NS", "CAA", "SRV"];
