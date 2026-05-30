@@ -1,11 +1,6 @@
 #!/usr/bin/env node
 /**
  * deploy.js — Syncs all domains/*.json files to Cloudflare DNS
- *
- * Required environment variables:
- *   CF_API_TOKEN  — Cloudflare API token (Zone:DNS:Edit permission)
- *   CF_ZONE_ID    — Cloudflare Zone ID for your domain
- *   BASE_DOMAIN   — Your root domain, e.g. "your-service.com"
  */
 
 const fs   = require("fs");
