@@ -7,7 +7,7 @@
 
 ---
 
-**your-service.com** lets developers claim a free `.getxyz.de` subdomain for
+**.getxyz.de** lets developers claim a free `.getxyz.de` subdomain for
 their personal sites, projects, or tools — no sign-up, no dashboard, just a GitHub PR.
 
 ## Register a subdomain
