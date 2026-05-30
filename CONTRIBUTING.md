@@ -10,7 +10,7 @@ Click the **Fork** button at the top right of this page to create your own copy.
 
 ## Step 2 — Create your domain file
 
-Inside the `domains/` folder, create a file named `YOUR-NAME.json`.
+Inside the `domains/` folder, create a file named `YOUR-NAME.json`. ( `YOUR-NAME` = Your new domain name.)
 
 **Rules for the file name:**
 - Only lowercase letters (`a–z`), numbers (`0–9`), and hyphens (`-`)
