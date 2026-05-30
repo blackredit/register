@@ -22,7 +22,7 @@ You may **not** use a subdomain to host, link to, or promote:
 - Hate speech, harassment, or content targeting individuals
 - Content that impersonates another person or brand
 
-## 3. One Subdomain Per Person
+## 3. Subdomain Per Person
 
 Each GitHub account may register a maximum of **2 subdomains** unless an exception is
 explicitly granted by a maintainer.
