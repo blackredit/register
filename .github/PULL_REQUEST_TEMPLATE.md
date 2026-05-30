@@ -1,6 +1,6 @@
 ## New Subdomain Registration
 
-**Subdomain:** `YOUR-NAME.your-service.com`
+**Subdomain:** `YOUR-NAME.getxyz.de`
 
 ### Checklist
 
