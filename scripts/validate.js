@@ -14,14 +14,141 @@ const DOMAINS_DIR   = path.join(__dirname, "..", "domains");
 const ALLOWED_TYPES = ["A", "AAAA", "CNAME", "MX", "TXT", "NS", "CAA", "SRV"];
 
 const RESERVED = new Set([
-  "www", "mail", "ftp", "smtp", "imap", "pop", "pop3", "webmail",
-  "admin", "administrator", "root", "hostmaster", "postmaster",
-  "api", "dev", "staging", "test", "beta", "alpha",
-  "ns", "ns1", "ns2", "ns3", "ns4",
-  "status", "docs", "help", "support", "blog",
-  "cdn", "static", "assets", "media", "img",
-  "@", "_dmarc", "_domainkey"
+  // Infrastructure
+  "www", "www1", "www2", "www3",
+  "mail", "mail1", "mail2", "mailer", "mailserver",
+  "ftp", "sftp", "ftps",
+  "smtp", "smtp1", "smtp2",
+  "imap", "pop", "pop3",
+  "webmail", "roundcube", "squirrelmail",
+  "ns", "ns1", "ns2", "ns3", "ns4", "ns5", "dns", "dns1", "dns2",
+  "mx", "mx1", "mx2",
+
+  // Admin / system
+  "admin", "administrator", "administration",
+  "root", "superuser", "sysadmin",
+  "hostmaster", "postmaster", "abuse", "noc", "security",
+  "webmaster", "domainadmin",
+
+  // API / Dev / Environments
+  "api", "api1", "api2", "apiv1", "apiv2", "apiv3",
+  "rest", "graphql", "grpc", "rpc", "soap", "webhook", "webhooks",
+  "dev", "develop", "developer", "developers",
+  "staging", "stage",
+  "test", "testing", "tests",
+  "beta", "alpha", "canary", "preview",
+  "sandbox", "demo", "example", "sample",
+  "local", "localhost",
+  "internal", "intranet", "private",
+  "prod", "production",
+  "lab", "labs",
+  "next", "new", "old", "legacy",
+  "v1", "v2", "v3",
+
+  // Docs / Support / Community
+  "status", "uptime", "monitor", "monitoring", "ping", "health",
+  "docs", "documentation", "doc",
+  "help", "helpdesk",
+  "support", "ticket", "tickets",
+  "blog", "news", "press", "updates", "changelog",
+  "forum", "forums", "community", "discuss", "discussion",
+  "wiki", "kb", "knowledgebase",
+  "faq", "manual",
+  "learn", "learning", "courses", "tutorials",
+
+  // CDN / Assets
+  "cdn", "cdn1", "cdn2",
+  "static", "assets", "asset",
+  "media", "img", "images", "image",
+  "video", "videos", "audio", "files", "file",
+  "download", "downloads", "upload", "uploads",
+  "storage", "store", "bucket",
+  "cache", "proxy",
+
+  // Auth / Security
+  "auth", "authentication", "oauth", "sso", "login", "logout",
+  "signup", "register", "account", "accounts", "profile",
+  "password", "reset", "verify", "verification",
+  "id", "identity", "user", "users",
+  "token", "tokens", "session",
+  "2fa", "mfa",
+
+  // Business
+  "shop", "store", "cart", "checkout", "pay", "payment", "payments",
+  "billing", "invoice", "invoices", "subscription", "subscriptions",
+  "affiliate", "referral", "promo",
+  "enterprise", "business", "corporate",
+  "partners", "partner", "reseller",
+
+  // Marketing / Web
+  "landing", "campaign", "campaigns",
+  "app", "apps", "webapp", "web",
+  "mobile", "ios", "android",
+  "dashboard", "panel", "console", "portal", "cp", "cpanel",
+  "manage", "management", "manager",
+  "analytics", "stats", "metrics", "tracking",
+  "search", "explore",
+  "careers", "jobs", "hire",
+  "about", "contact", "legal", "privacy", "terms",
+
+  // Infrastructure / Cloud
+  "vpn", "proxy", "gateway", "firewall",
+  "server", "servers", "host", "hosting",
+  "node", "nodes", "cluster", "clusters",
+  "db", "database", "databases", "sql", "mysql", "postgres", "mongo",
+  "redis", "elastic", "kafka", "queue",
+  "git", "gitlab", "github", "svn", "repo", "repos", "registry",
+  "ci", "cd", "pipeline", "build", "builds", "deploy", "deployment",
+  "docker", "k8s", "kubernetes", "infra", "infrastructure",
+
+  // DNS special records
+  "@", "*",
+  "_dmarc", "_domainkey", "_acme-challenge",
+  "_mta-sts", "_smtp-tls", "_spf",
+  "_caldav", "_carddav",
+  "_sip", "_xmpp", "_jabber",
+
+  // Cloudflare / service reserved
+  "cloudflare", "cf",
+  "cpanel", "whm", "plesk", "directadmin",
+  "autoconfig", "autodiscover",   // email client auto-setup
+  "broadcast", "localhost",
 ]);
+
+// ─── PR file-path guard (only runs inside GitHub Actions on pull_request) ─────
+if (process.env.GITHUB_EVENT_NAME === "pull_request") {
+  const { execSync } = require("child_process");
+  const base = process.env.GITHUB_BASE_REF || "main";
+
+  let changedFiles;
+  try {
+    changedFiles = execSync(`git diff --name-only origin/${base}...HEAD`, { encoding: "utf8" })
+      .trim()
+      .split("\n")
+      .filter(Boolean);
+  } catch (e) {
+    console.error(`❌ Could not determine changed files: ${e.message}`);
+    process.exit(1);
+  }
+
+  console.log("─── File path check ───────────────────────────────────────");
+  console.log(`Changed files in this PR (${changedFiles.length}):`);
+  changedFiles.forEach(f => console.log(`  ${f}`));
+  console.log("");
+
+  // Only domains/NAME.json is allowed — no subdirectories, no other extensions
+  const illegal = changedFiles.filter(f => !/^domains\/[^/]+\.json$/.test(f));
+
+  if (illegal.length > 0) {
+    console.error("❌ This PR modifies files outside domains/*.json:\n");
+    illegal.forEach(f => console.error(`   🚫  ${f}`));
+    console.error("\nOnly files matching  domains/NAME.json  are allowed in pull requests.");
+    console.error("Scripts, workflows, docs, and root files are maintained by the repo owners.");
+    process.exit(1);
+  }
+
+  console.log(`✅ All changed files are inside domains/ — path check passed\n`);
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 let errors   = 0;
