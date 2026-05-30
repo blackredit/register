@@ -4,7 +4,6 @@
 
 ![Domains](https://img.shields.io/github/directory-file-count/blackredit/register/domains?label=domains&style=for-the-badge&color=5c46eb)
 ![Pull Requests](https://img.shields.io/github/issues-pr-raw/blackredit/register?label=open+PRs&style=for-the-badge&color=5c46eb)
-![Stars](https://img.shields.io/github/stars/blackredit/register?style=for-the-badge&color=5c46eb)
 
 ---
 
