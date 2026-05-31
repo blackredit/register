@@ -5,7 +5,7 @@ labels: report-abuse
 ---
 
 **Subdomain in question:**
-`name.your-service.com`
+`name.getxyz.de`
 
 **Type of violation:**
 - [ ] Phishing / fraud
