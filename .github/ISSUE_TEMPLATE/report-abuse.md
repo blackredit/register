@@ -20,3 +20,6 @@ labels: report-abuse
 
 **Evidence:**
 <!-- Screenshots, URLs, or other proof. -->
+
+
+> We accept no liability for third-party websites and have no control over their content. All we can do is block websites or remove them from our DNS system. 
