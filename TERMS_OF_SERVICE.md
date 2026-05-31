@@ -31,6 +31,7 @@ explicitly granted by a maintainer.
 
 You retain full ownership of the content hosted at your subdomain.
 We do not claim any rights over your content.
+We accept no liability for third-party websites and have no control over their content.
 
 ## 5. Termination
 
